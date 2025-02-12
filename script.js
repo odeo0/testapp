@@ -6,13 +6,6 @@ const menu = [
     { id: 4, name: "Напиток", price: 100 },
 ];
 
-// Корзина
-let cart = [];
-let totalPrice = 0;
-
-// Инициализация Telegram Web App
-const tg = window.Telegram.WebApp;
-
 // Функция для отображения меню
 function renderMenu() {
     const menuContainer = document.getElementById('menu');
@@ -38,6 +31,9 @@ function addToCart(itemId) {
 }
 
 // Функция для обновления корзины
+let cart = [];
+let totalPrice = 0;
+
 function updateCart() {
     const cartItems = document.getElementById('cart-items');
     const totalPriceElement = document.getElementById('total-price');
@@ -50,13 +46,11 @@ function updateCart() {
     totalPriceElement.textContent = totalPrice;
 }
 
-// Функция для оформления заказа
-function checkout() {
-    const message = `Ваш заказ:\n${cart.map(item => `- ${item.name}: ${item.price} руб.`).join('\n')}\nИтого: ${totalPrice} руб.`;
-    tg.sendData(message); // Отправка данных в Telegram
-    tg.close(); // Закрытие мини-приложения
-}
-
 // Инициализация
-document.getElementById('checkout-button').addEventListener('click', checkout);
-renderMenu();
+document.addEventListener('DOMContentLoaded', renderMenu);
+document.getElementById('checkout-button').addEventListener('click', () => {
+    alert(`Ваш заказ на сумму ${totalPrice} руб. оформлен!`);
+    cart = [];
+    totalPrice = 0;
+    updateCart();
+});
